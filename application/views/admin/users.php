@@ -1,7 +1,7 @@
                 <!-- Start content -->
                 <div class="content">
                     <div class="container">
-
+                        <?php //echo phpinfo(); ?>
 
                         <div class="row">
                             <div class="col-xs-12">
@@ -22,7 +22,9 @@
                                 <div class="col-sm-12">
 
                                     <?php if(!empty($_SESSION['sessionMsg'])){ ?>
-                                        <div class="alert alert-success">
+                                        <div class="alert alert-success alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            
                                             <?php echo display_session_msg();?>
                                         </div>
                                     <?php } ?>  
@@ -35,20 +37,20 @@
                                             <table id="datatable-buttons" class="table table-striped table-bordered">
                                                 <thead>
                                                     <tr>
-                                                       <th><input name="check_all" type="checkbox" class="all" id="check_all" value="1"></th>
-                                                       <th>Name</th>
-                                                       <th>Email</th>
-                                                       <th>Mobile</th>
-                                                       <th>Role</th>
-                                                       <th>Status</th>
-                                                       <th>Added date</th>
-                                                       <th>Updated date</th>
-                                                       <th></th>
-                                                   </tr>
-                                               </thead> 
+                                                     <th><input name="check_all" type="checkbox" class="all" id="check_all" value="1"></th>
+                                                     <th>Name</th>
+                                                     <th>Email</th>
+                                                     <th>Mobile</th>
+                                                     <th>Role</th>
+                                                     <th>Status</th>
+                                                     <th>Added date</th>
+                                                     <th>Updated date</th>
+                                                     <th></th>
+                                                 </tr>
+                                             </thead> 
 
 
-                                               <tbody>
+                                             <tbody>
                                                 <?php 
                                                 if(!empty($userRecords))
                                                 {
@@ -120,6 +122,8 @@
                         var userId = $(this).data("userid"),
                         hitURL = baseURL + adminPanel + "deleteUser",
                         currentRow = $(this);
+                        var csrf_t_n="<?php echo $this->security->get_csrf_token_name(); ?>";
+                        var csrf_t_h="<?php echo $this->security->get_csrf_hash(); ?>";
 
                         var confirmation = confirm("Are you sure to delete this user ?");
 
@@ -129,7 +133,7 @@
                                 type : "POST",
                                 dataType : "json",
                                 url : hitURL,
-                                data : { userId : userId } 
+                                data : { userId : userId, csrf_t_n : csrf_t_h }  
                             }).done(function(data){
                                 console.log(data);
                                 currentRow.parents('tr').remove();

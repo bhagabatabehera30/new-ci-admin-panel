@@ -22,27 +22,27 @@ class User extends BaseController
 
         if((($this->router->method) == "dashboard")  )
         {
-         define('css_for_dashboard','Y');
-         define('js_for_dashboard','Y');        
-     }else{  define('css_for_dashboard','N');
-     define('js_for_dashboard','N');      
- } 
+           define('css_for_dashboard','Y');
+           define('js_for_dashboard','Y');        
+       }else{  define('css_for_dashboard','N');
+       define('js_for_dashboard','N');      
+   } 
 
 // --------load extra css and js  for specific list pages/methods------------------- 
- if(($this->router->method == "userListing")) 
- {
-   define('css_for_list_pages','Y');
-   define('js_for_list_pages','Y');       
-}else{  define('css_for_list_pages','N');
-define('js_for_list_pages','N');    }
+   if(($this->router->method == "userListing")) 
+   {
+     define('css_for_list_pages','Y');
+     define('js_for_list_pages','Y');       
+ }else{  define('css_for_list_pages','N');
+ define('js_for_list_pages','N');    }
 
          // --------load extra css and js  for specific ad/edit pages/methods------------------- CategoryCreate
-if(($this->router->method == "addNew")) 
-{
-   define('css_for_add_edit_pages','Y');
-   define('js_for_add_edit_pages','Y');       
-}else{  define('css_for_add_edit_pages','N');
-define('js_for_add_edit_pages','N');    }
+ if(($this->router->method == "addNewUser") || ($this->router->method == "editUser") || ($this->router->method == "editingUser")) 
+ {
+     define('css_for_add_edit_pages','Y');
+     define('js_for_add_edit_pages','Y');       
+ }else{  define('css_for_add_edit_pages','N');
+ define('js_for_add_edit_pages','N');    }
 
 
 }
@@ -102,7 +102,7 @@ define('js_for_add_edit_pages','N');    }
             
             $this->global['pageTitle'] = MYAPP_NAME.' : Add New User';
 
-            $this->loadViews("admin/addNew", $this->global, $data, NULL);
+            $this->loadViews("admin/addNewUser", $this->global, $data, NULL);
         }
     }
 
@@ -114,7 +114,7 @@ define('js_for_add_edit_pages','N');    }
         $userId = $this->input->post("userId");
         $email = $this->input->post("email");
 
-        if(empty($userId)){
+        if(empty($userId)){  
             $result = $this->user_model->checkEmailExists($email);
         } else {
             $result = $this->user_model->checkEmailExists($email, $userId);
@@ -135,8 +135,8 @@ define('js_for_add_edit_pages','N');    }
         }
         else
         {
-            $this->load->library('form_validation');
-            
+            //$this->load->library('form_validation');
+
             $this->form_validation->set_rules('fname','Full Name','trim|required|max_length[128]');
             $this->form_validation->set_rules('email','Email','trim|required|valid_email|max_length[128]');
             $this->form_validation->set_rules('password','Password','required|max_length[20]');
@@ -146,7 +146,7 @@ define('js_for_add_edit_pages','N');    }
             
             if($this->form_validation->run() == FALSE)
             {
-                $this->addingNewUser();
+                $this->addNewUser();
             }
             else
             {
@@ -155,28 +155,38 @@ define('js_for_add_edit_pages','N');    }
                 $password = $this->input->post('password');
                 $roleId = $this->input->post('role');
                 $mobile = $this->security->xss_clean($this->input->post('mobile'));
-                
-                $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 'roleId'=>$roleId, 'name'=> $name,
-                    'mobile'=>$mobile, 'createdBy'=>$this->vendorId, 'createdDtm'=>date('Y-m-d H:i:s'));
-                
                 $this->load->model('user_model');
-                $result = $this->user_model->addNewUser($userInfo);
-                
-                if($result > 0)
-                {
-                    $this->session->set_flashdata('success', 'New User created successfully');
-                }
-                else
-                {
-                    $this->session->set_flashdata('error', 'User creation failed');
-                }
-                
-                redirect(ADMIN_PANEL.'addNewUser'); 
+                $duplicate_email_check=$this->user_model->checkUniquenessOfString('users','email',$email);
+                if($duplicate_email_check){
+                    $this->session->set_flashdata('error', 'This email id exists in our database.Use other email id to create your account.');
+                    redirect(ADMIN_PANEL.'addNewUser'); 
+                }else{
+
+                    $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 'roleId'=>$roleId, 'name'=> $name,
+                        'mobile'=>$mobile, 'createdBy'=>$this->vendorId, 'createdDtm'=>date('Y-m-d H:i:s'));
+
+
+                    $result = $this->user_model->addNewUser($userInfo);
+
+                    if($result > 0)
+                    {
+                        $sess_msg="New User created successfully.";  
+
+                        $_SESSION['sessionMsg']=$sess_msg; 
+                   // $this->session->set_flashdata('success', 'New User created successfully');
+                    }
+                    else
+                    {
+                        $this->session->set_flashdata('error', 'User creation failed');
+                    }
+
+                    redirect(ADMIN_PANEL.'userListing'); 
+                } 
             }
         }
     }
 
-    
+
     /**
      * This function is used load user edit information
      * @param number $userId : Optional : This is user id
@@ -269,8 +279,8 @@ define('js_for_add_edit_pages','N');    }
     }
 
     function active_deactive_delete_all_users(){
-     if($this->isAdmin() == TRUE)
-     {
+       if($this->isAdmin() == TRUE)
+       {
         $this->loadThis();
     }
     else
@@ -294,12 +304,12 @@ define('js_for_add_edit_pages','N');    }
 
         } else if($Activate!='') {
 
-           $this->user_model->active_or_deactiveAll('users','status','1','userId',$str_adm_ids);  
-           $sess_msg="Records have Activated Successfully";
+         $this->user_model->active_or_deactiveAll('users','status','1','userId',$str_adm_ids);  
+         $sess_msg="Records have Activated Successfully";
 
-           $_SESSION['sessionMsg']=$sess_msg;
+         $_SESSION['sessionMsg']=$sess_msg;
 
-       } else if($Deactivate!='') {
+     } else if($Deactivate!='') {
 
         $this->user_model->active_or_deactiveAll('users','status','0','userId',$str_adm_ids);  
         $sess_msg="Records have deactivated/inactivated Successfully";  

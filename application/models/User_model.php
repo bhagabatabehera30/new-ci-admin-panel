@@ -54,25 +54,139 @@ class User_model extends CI_Model
 
 
   public function deleteAll($tableName,$fieldName,$fieldValue){
-   $sql="delete from $tableName  where  $fieldName in ( $fieldValue) ";
-   $query = $this->db->query($sql);
-   if($query){
-       return true;
-   }else{
-       return false;
-   }
-}
+     $sql="delete from $tableName  where  $fieldName in ( $fieldValue) ";
+     $query = $this->db->query($sql);
+     if($query){
+         return true;
+     }else{
+         return false;
+     }
+ }
 
-public function active_or_deactiveAll($tableName,$fieldName,$fieldValue,$fieldName2,$fieldValue2){
+ public function active_or_deactiveAll($tableName,$fieldName,$fieldValue,$fieldName2,$fieldValue2){
     $sql = "update  $tableName  set  $fieldName = '".$fieldValue."'  where $fieldName2 in ( $fieldValue2) ";
         //die();
     $query = $this->db->query($sql);
     if($query){
-       return true;
-   }else{
-       return false;
-   }
+     return true;
+ }else{
+     return false;
+ }
 }
+
+/*======== exact one row data fetch===============*/
+function FetchOneRowDataByOneField($tableName,$fieldName,$fieldValue)
+{
+    $query = $this->db->query("Select * from $tableName where $fieldName='".$fieldValue."'");
+    $totalRowsUnique = $query->num_rows();
+    if($totalRowsUnique > 0)
+    {
+      return $query->row();
+  }
+  
+}
+/*======== exact one row data fetch===============*/
+function FetchOneRowDataByTwoField($tableName,$fieldName,$fieldValue,$fieldName2,$fieldValue2)
+{
+    $query = $this->db->query("Select * from $tableName where $fieldName='".$fieldValue."' and  $fieldName2='".$fieldValue2."' ");
+    $totalRowsUnique = $query->num_rows();
+    if($totalRowsUnique > 0)
+    {
+      return $query->row();
+  }
+  
+}
+/*========one field culumn data fetch===============*/
+function FetchDataByOneField($tableName,$fieldName,$fieldValue)
+{
+    $query = $this->db->query("Select * from $tableName where $fieldName='".$fieldValue."'");
+    $totalRowsUnique = $query->num_rows();
+    if($totalRowsUnique > 0)
+    {
+      return $query->result_array();
+  }
+  
+}
+/*========Two field culumn data fetch===============*/
+function FetchDataByTwoField($tableName,$fieldName,$fieldValue,$fieldName2,$fieldValue2)
+{
+    $query = $this->db->query("Select * from $tableName where $fieldName='".$fieldValue."'  and  $fieldName2='".$fieldValue2."' ");
+    $totalRowsUnique = $query->num_rows();
+    if($totalRowsUnique > 0)
+    {
+      return $query->result_array();
+  }
+  
+}
+
+/*========Three field culumn data fetch===============*/
+function FetchDataByThreeField($tableName,$fieldName,$fieldValue,$fieldName2,$fieldValue2,$fieldName3,$fieldValue3)
+{
+    $query = $this->db->query("Select * from $tableName where $fieldName='".$fieldValue."'  and  $fieldName2='".$fieldValue2."' and  $fieldName3='".$fieldValue3."' ");
+    $totalRowsUnique = $query->num_rows();
+    if($totalRowsUnique > 0)
+    {
+      return $query->result_array();
+  }
+  
+}
+
+/*========Four field culumn data fetch===============*/
+function FetchDataByFourField($tableName,$fieldName,$fieldValue,$fieldName2,$fieldValue2,$fieldName3,$fieldValue3,$fieldName4,$fieldValue4)
+{
+    $query = $this->db->query("Select * from $tableName where $fieldName='".$fieldValue."'  and  $fieldName2='".$fieldValue2."' and  $fieldName3='".$fieldValue3."' and  $fieldName4='".$fieldValue4."'");
+    $totalRowsUnique = $query->num_rows();
+    if($totalRowsUnique > 0)
+    {
+      return $query->result_array();
+  }
+  
+}
+
+
+
+/*##############################################
+Use : Returns true if varchar-field is already present in table,false otherwise.
+Arguments : none
+###############################################*/
+function checkUniquenessOfString($tableName,$fieldName,$fieldValue)
+{
+    $query = $this->db->query("Select $fieldName from $tableName where $fieldName='".$fieldValue."'");
+    $totalRowsUnique = $query->num_rows();
+    if($totalRowsUnique!=0)
+    {
+        
+        return true;
+    }
+    else
+    {
+     
+        return false; 
+    }
+}
+
+/*##############################################
+Use : Returns true if varchar-field is already present in table,false otherwise.
+Arguments : none
+###############################################*/
+
+function checkUniquenessOfString1($tableName,$fieldName,$fieldValue,$fieldName1,$fieldValue1)
+{
+    
+   $query = $this->db->query("Select $fieldName from $tableName where $fieldName='$fieldValue' and $fieldName1!='$fieldValue1'");
+   $totalRowsUnique =$query->num_rows();
+   if($totalRowsUnique!=0)
+   {            
+      return true;
+  }
+  else
+  {           
+      return false;
+  }
+}   
+
+
+
 
 
 function userListingCount($searchText = '')
