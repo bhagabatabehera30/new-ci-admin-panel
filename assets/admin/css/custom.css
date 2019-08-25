@@ -1,0 +1,19 @@
+.fielderror {
+    color: red;
+}
+.box-title.hd_dashed {
+    background: #607D8B;
+    color: #fff;
+    padding: 5px 0px 5px 10px;
+}
+.infoq {
+    color: #FFF;
+    background: #1E91CF;
+    padding: 0px 5px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 600;
+}
+.required-stars{ color:red;
+    font-size: 15px;
+    font-weight: 800;}
