@@ -14,9 +14,9 @@ class BaseController extends CI_Controller {
 	protected $roleText = '';
 	protected $global = array ();
 	protected $lastLogin = '';
-	protected $status = 1;
-	protected $is_emailVerify = 0;
-	protected $is_mobileVerify=0;
+	//protected $status = 1;
+	//protected $is_emailVerify = 0;
+	//protected $is_mobileVerify=0;
 	
 	/**
 	 * Takes mixed data and optionally a status code, then creates the response
@@ -45,10 +45,10 @@ class BaseController extends CI_Controller {
 			$this->name = $this->session->userdata ( 'name' );
 			$this->roleText = $this->session->userdata ( 'roleText' );
 			$this->lastLogin = $this->session->userdata ( 'lastLogin' );
-			$this->status = $this->session->userdata ( 'status' ); 
+			/*$this->status = $this->session->userdata ( 'status' ); 
 			$this->is_emailVerify = $this->session->userdata ( 'is_emailVerify' );
 			$this->is_mobileVerify = $this->session->userdata ( 'is_mobileVerify' );
-			
+			*/
 			
 			
 			$this->global ['name'] = $this->name;

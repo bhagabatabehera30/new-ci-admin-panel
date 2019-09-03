@@ -22,27 +22,27 @@ class User extends BaseController
 
         if((($this->router->method) == "dashboard")  )
         {
-           define('css_for_dashboard','Y');
-           define('js_for_dashboard','Y');        
-       }else{  define('css_for_dashboard','N');
-       define('js_for_dashboard','N');      
-   } 
+         define('css_for_dashboard','Y');
+         define('js_for_dashboard','Y');        
+     }else{  define('css_for_dashboard','N');
+     define('js_for_dashboard','N');      
+ } 
 
 // --------load extra css and js  for specific list pages/methods------------------- 
-   if(($this->router->method == "userListing")) 
-   {
-     define('css_for_list_pages','Y');
-     define('js_for_list_pages','Y');       
- }else{  define('css_for_list_pages','N');
- define('js_for_list_pages','N');    }
+ if(($this->router->method == "userListing")) 
+ {
+   define('css_for_list_pages','Y');
+   define('js_for_list_pages','Y');       
+}else{  define('css_for_list_pages','N');
+define('js_for_list_pages','N');    }
 
          // --------load extra css and js  for specific ad/edit pages/methods------------------- CategoryCreate
- if(($this->router->method == "addNewUser") || ($this->router->method == "editUser") || ($this->router->method == "editingUser")) 
- {
-     define('css_for_add_edit_pages','Y');
-     define('js_for_add_edit_pages','Y');       
- }else{  define('css_for_add_edit_pages','N');
- define('js_for_add_edit_pages','N');    }
+if(($this->router->method == "addNewUser") || ($this->router->method == "editUser") || ($this->router->method == "editingUser")) 
+{
+   define('css_for_add_edit_pages','Y');
+   define('js_for_add_edit_pages','Y');       
+}else{  define('css_for_add_edit_pages','N');
+define('js_for_add_edit_pages','N');    }
 
 
 }
@@ -155,7 +155,7 @@ class User extends BaseController
                 $password = $this->input->post('password');
                 $roleId = $this->input->post('role');
                 $mobile = $this->security->xss_clean($this->input->post('mobile'));
-                $this->load->model('user_model');
+                //$this->load->model('user_model');
                 $duplicate_email_check=$this->user_model->checkUniquenessOfString('users','email',$email);
                 if($duplicate_email_check){
                     $this->session->set_flashdata('error', 'This email id exists in our database.Use other email id to create your account.');
@@ -249,38 +249,49 @@ class User extends BaseController
                 $mobile = $this->security->xss_clean($this->input->post('mobile'));
                 
                 $userInfo = array();
-                
-                if(empty($password))
-                {
-                    $userInfo = array('email'=>$email, 'roleId'=>$roleId, 'name'=>$name,
-                        'mobile'=>$mobile, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s'));
+
+                $duplicate_email_check=$this->user_model->checkUniquenessOfString1('users','email',$email,'userId',$userId);
+                if($duplicate_email_check){
+                    $this->session->set_flashdata('error', 'This email id belongs to other user account.Use other email id to update your account.');
+                    // redirect(ADMIN_PANEL.'addNewUser'); 
+                    $this->editUser($userId);
+                }else{
+                    if(empty($password))
+                    {
+                        $userInfo = array('email'=>$email, 'roleId'=>$roleId, 'name'=>$name,
+                            'mobile'=>$mobile, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s'));
+                    }
+                    else
+                    {
+                        $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 'roleId'=>$roleId,
+                            'name'=>ucwords($name), 'mobile'=>$mobile, 'updatedBy'=>$this->vendorId, 
+                            'updatedDtm'=>date('Y-m-d H:i:s'));
+                    }
+
+                    $result = $this->user_model->editUser($userInfo, $userId);
+
+                    if($result == true)
+                    {
+                        $sess_msg="Records has been updated successfully.";  
+
+                        $_SESSION['sessionMsg']=$sess_msg; 
+                       // $this->session->set_flashdata('success', 'User updated successfully');
+                    }
+                    else
+                    {
+                        $this->session->set_flashdata('error', 'User updation failed');
+                    }
+
+                    redirect(ADMIN_PANEL.'userListing');
                 }
-                else
-                {
-                    $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 'roleId'=>$roleId,
-                        'name'=>ucwords($name), 'mobile'=>$mobile, 'updatedBy'=>$this->vendorId, 
-                        'updatedDtm'=>date('Y-m-d H:i:s'));
-                }
-                
-                $result = $this->user_model->editUser($userInfo, $userId);
-                
-                if($result == true)
-                {
-                    $this->session->set_flashdata('success', 'User updated successfully');
-                }
-                else
-                {
-                    $this->session->set_flashdata('error', 'User updation failed');
-                }
-                
-                redirect(ADMIN_PANEL.'userListing');
+
             }
         }
     }
 
     function active_deactive_delete_all_users(){
-       if($this->isAdmin() == TRUE)
-       {
+     if($this->isAdmin() == TRUE)
+     {
         $this->loadThis();
     }
     else
@@ -304,12 +315,12 @@ class User extends BaseController
 
         } else if($Activate!='') {
 
-         $this->user_model->active_or_deactiveAll('users','status','1','userId',$str_adm_ids);  
-         $sess_msg="Records have Activated Successfully";
+           $this->user_model->active_or_deactiveAll('users','status','1','userId',$str_adm_ids);  
+           $sess_msg="Records have Activated Successfully";
 
-         $_SESSION['sessionMsg']=$sess_msg;
+           $_SESSION['sessionMsg']=$sess_msg;
 
-     } else if($Deactivate!='') {
+       } else if($Deactivate!='') {
 
         $this->user_model->active_or_deactiveAll('users','status','0','userId',$str_adm_ids);  
         $sess_msg="Records have deactivated/inactivated Successfully";  
@@ -373,6 +384,9 @@ redirect(ADMIN_PANEL.'userListing');
         {
             $userId = ($userId == NULL ? 0 : $userId);
 
+            //echo  $userId;
+
+
             $searchText = $this->input->post('searchText');
             $fromDate = $this->input->post('fromDate');
             $toDate = $this->input->post('toDate');
@@ -383,17 +397,17 @@ redirect(ADMIN_PANEL.'userListing');
             $data['fromDate'] = $fromDate;
             $data['toDate'] = $toDate;
             
-            $this->load->library('pagination');
+            //$this->load->library('pagination');
             
             $count = $this->user_model->loginHistoryCount($userId, $searchText, $fromDate, $toDate);
+            //die();
+            //$returns = $this->paginationCompress ( "login-history/".$userId."/", $count, 10, 3);
 
-            $returns = $this->paginationCompress ( "login-history/".$userId."/", $count, 10, 3);
-
-            $data['userRecords'] = $this->user_model->loginHistory($userId, $searchText, $fromDate, $toDate, $returns["page"], $returns["segment"]);
+            $data['userRecords'] = $this->user_model->loginHistory($userId, $searchText, $fromDate, $toDate); 
             
             $this->global['pageTitle'] = MYAPP_NAME.' : User Login History';
             
-            $this->loadViews("loginHistory", $this->global, $data, NULL);
+            $this->loadViews("admin/loginHistory", $this->global, $data, NULL);
         }        
     }
 

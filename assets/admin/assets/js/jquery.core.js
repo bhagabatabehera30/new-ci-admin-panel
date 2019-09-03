@@ -1,11 +1,4 @@
-/**
-* Theme: Zircos Admin Template
-* Author: Coderthemes
-* Module/App: Core js
-*/
-
-
-//portlets
+//portlets   
 !function($) {
     "use strict";
 
@@ -26,7 +19,7 @@
         $(document).on("click",this.$portletCloser, function (ev) {
             ev.preventDefault();
             var $portlet = $(this).closest($this.$portletIdentifier);
-                var $portlet_parent = $portlet.parent();
+            var $portlet_parent = $portlet.parent();
 
 
             $portlet.slideUp("slow", function() {
@@ -35,7 +28,7 @@
             if ($portlet_parent.children().length == 0) {
                 $portlet_parent.slideUp("slow", function() {
                    $(this).remove();
-                });
+               });
             }
         });
 
@@ -63,7 +56,7 @@
 /**
  * Components
  */
-function($) {
+ function($) {
     "use strict";
 
     var Components = function() {};
@@ -139,7 +132,7 @@ function($) {
             });
         });
         //donut
-         $('[data-plugin="peity-donut"]').each(function(idx, obj) {
+        $('[data-plugin="peity-donut"]').each(function(idx, obj) {
             var colors = $(this).attr('data-colors')?$(this).attr('data-colors').split(","):[];
             var width = $(this).attr('data-width')?$(this).attr('data-width'):20; //default is 20
             var height = $(this).attr('data-height')?$(this).attr('data-height'):20; //default is 20
@@ -150,14 +143,14 @@ function($) {
             });
         });
 
-         $('[data-plugin="peity-donut-alt"]').each(function(idx, obj) {
+        $('[data-plugin="peity-donut-alt"]').each(function(idx, obj) {
             $(this).peity("donut");
         });
 
          // line
          $('[data-plugin="peity-line"]').each(function(idx, obj) {
             $(this).peity("line", $(this).data());
-         });
+        });
 
          // bar
          $('[data-plugin="peity-bar"]').each(function(idx, obj) {
@@ -169,30 +162,30 @@ function($) {
                 width: width,
                 height: height
             });
-         });
+        });
      },
      Components.prototype.initKnob = function() {
          $('[data-plugin="knob"]').each(function(idx, obj) {
             $(this).knob();
-         });
+        });
      },
 
      Components.prototype.initCircliful = function() {
          $('[data-plugin="circliful"]').each(function(idx, obj) {
             $(this).circliful();
-         });
+        });
      },
 
-    Components.prototype.initCounterUp = function() {
+     Components.prototype.initCounterUp = function() {
         var delay = $(this).attr('data-delay')?$(this).attr('data-delay'):100; //default is 100
         var time = $(this).attr('data-time')?$(this).attr('data-time'):1200; //default is 1200
-         $('[data-plugin="counterup"]').each(function(idx, obj) {
+        $('[data-plugin="counterup"]').each(function(idx, obj) {
             $(this).counterUp({
                 delay: 100,
                 time: 1200
             });
-         });
-     },
+        });
+    },
 
 
     //initilizing
@@ -218,10 +211,10 @@ function($) {
 
 }(window.jQuery),
     //initializing main application module
-function($) {
-    "use strict";
-    $.Components.init();
-}(window.jQuery);
+    function($) {
+        "use strict";
+        $.Components.init();
+    }(window.jQuery);
 
 
 

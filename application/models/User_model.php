@@ -155,12 +155,12 @@ function checkUniquenessOfString($tableName,$fieldName,$fieldValue)
     $totalRowsUnique = $query->num_rows();
     if($totalRowsUnique!=0)
     {
-        
+
         return true;
     }
     else
     {
-     
+
         return false; 
     }
 }
@@ -172,7 +172,7 @@ Arguments : none
 
 function checkUniquenessOfString1($tableName,$fieldName,$fieldValue,$fieldName1,$fieldValue1)
 {
-    
+
    $query = $this->db->query("Select $fieldName from $tableName where $fieldName='$fieldValue' and $fieldName1!='$fieldValue1'");
    $totalRowsUnique =$query->num_rows();
    if($totalRowsUnique!=0)
@@ -407,7 +407,7 @@ function userListingCount($searchText = '')
      * @param number $segment : This is pagination limit
      * @return array $result : This is result
      */
-    function loginHistory($userId, $searchText, $fromDate, $toDate, $page, $segment)
+    function loginHistory($userId, $searchText='', $fromDate='', $toDate='')
     {
         $this->db->select('BaseTbl.userId, BaseTbl.sessionData, BaseTbl.machineIp, BaseTbl.userAgent, BaseTbl.agentString, BaseTbl.platform, BaseTbl.createdDtm');
         $this->db->from('user_last_login as BaseTbl');
@@ -417,7 +417,7 @@ function userListingCount($searchText = '')
         }
         if(!empty($fromDate)) {
             $likeCriteria = "DATE_FORMAT(BaseTbl.createdDtm, '%Y-%m-%d' ) >= '".date('Y-m-d', strtotime($fromDate))."'";
-            $this->db->where($likeCriteria);
+            $this->db->where($likeCriteria); 
         }
         if(!empty($toDate)) {
             $likeCriteria = "DATE_FORMAT(BaseTbl.createdDtm, '%Y-%m-%d' ) <= '".date('Y-m-d', strtotime($toDate))."'";
@@ -427,7 +427,7 @@ function userListingCount($searchText = '')
             $this->db->where('BaseTbl.userId', $userId);
         }
         $this->db->order_by('BaseTbl.id', 'DESC');
-        $this->db->limit($page, $segment);
+       // $this->db->limit($page, $segment);
         $query = $this->db->get();
         
         $result = $query->result();        

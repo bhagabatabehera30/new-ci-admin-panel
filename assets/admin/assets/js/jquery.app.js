@@ -1,44 +1,37 @@
-/**
-* Theme: Zircos Admin Template
-* Author: Coderthemes
-* Module/App: Main Js
-*/
-
-
 !function($) {
-    "use strict";
+  "use strict";
 
-    var Sidemenu = function() {
-        this.$body = $("body"),
-        this.$openLeftBtn = $(".open-left"),
-        this.$menuItem = $("#sidebar-menu a")
-    };
-    Sidemenu.prototype.openLeftBar = function() {
-      $("#wrapper").toggleClass("enlarged");
-      $("#wrapper").addClass("forced");
+  var Sidemenu = function() {
+    this.$body = $("body"),
+    this.$openLeftBtn = $(".open-left"),
+    this.$menuItem = $("#sidebar-menu a")
+  };
+  Sidemenu.prototype.openLeftBar = function() {
+    $("#wrapper").toggleClass("enlarged");
+    $("#wrapper").addClass("forced");
 
-      if($("#wrapper").hasClass("enlarged") && $("body").hasClass("fixed-left")) {
-        $("body").removeClass("fixed-left").addClass("fixed-left-void");
-      } else if(!$("#wrapper").hasClass("enlarged") && $("body").hasClass("fixed-left-void")) {
-        $("body").removeClass("fixed-left-void").addClass("fixed-left");
-      }
+    if($("#wrapper").hasClass("enlarged") && $("body").hasClass("fixed-left")) {
+      $("body").removeClass("fixed-left").addClass("fixed-left-void");
+    } else if(!$("#wrapper").hasClass("enlarged") && $("body").hasClass("fixed-left-void")) {
+      $("body").removeClass("fixed-left-void").addClass("fixed-left");
+    }
 
-      if($("#wrapper").hasClass("enlarged")) {
-        $(".left ul").removeAttr("style");
-      } else {
-        $(".subdrop").siblings("ul:first").show();
-      }
+    if($("#wrapper").hasClass("enlarged")) {
+      $(".left ul").removeAttr("style");
+    } else {
+      $(".subdrop").siblings("ul:first").show();
+    }
 
-      toggle_slimscroll(".slimscrollleft");
-      $("body").trigger("resize");
-    },
+    toggle_slimscroll(".slimscrollleft");
+    $("body").trigger("resize");
+  },
     //menu item click
     Sidemenu.prototype.menuItemClick = function(e) {
-       if(!$("#wrapper").hasClass("enlarged")){
-        if($(this).parent().hasClass("has_sub")) {
+     if(!$("#wrapper").hasClass("enlarged")){
+      if($(this).parent().hasClass("has_sub")) {
 
-        }
-        if(!$(this).hasClass("subdrop")) {
+      }
+      if(!$(this).hasClass("subdrop")) {
           // hide any open menus and remove all other classes
           $("ul",$(this).parents("ul:first")).slideUp(350);
           $("a",$(this).parents("ul:first")).removeClass("subdrop");
@@ -62,7 +55,7 @@
       var $this  = this;
 
       var ua = navigator.userAgent,
-        event = (ua.match(/iP/i)) ? "touchstart" : "click";
+      event = (ua.match(/iP/i)) ? "touchstart" : "click";
 
       //bind on click
       this.$openLeftBtn.on(event, function(e) {
@@ -80,15 +73,15 @@
     //init Sidemenu
     $.Sidemenu = new Sidemenu, $.Sidemenu.Constructor = Sidemenu
 
-}(window.jQuery),
+  }(window.jQuery),
 
 
-function($) {
+  function($) {
     "use strict";
 
     var FullScreen = function() {
-        this.$body = $("body"),
-        this.$fullscreenBtn = $("#btn-fullscreen")
+      this.$body = $("body"),
+      this.$fullscreenBtn = $("#btn-fullscreen")
     };
 
     //turn on full screen
@@ -134,26 +127,26 @@ function($) {
       });
     },
      //init FullScreen
-    $.FullScreen = new FullScreen, $.FullScreen.Constructor = FullScreen
+     $.FullScreen = new FullScreen, $.FullScreen.Constructor = FullScreen
 
-}(window.jQuery),
+   }(window.jQuery),
 
 
 
 //main app module
- function($) {
-    "use strict";
+function($) {
+  "use strict";
 
-    var App = function() {
-        this.VERSION = "1.6.1",
-        this.AUTHOR = "Coderthemes",
-        this.SUPPORT = "coderthemes@gmail.com",
-        this.pageScrollElement = "html, body",
-        this.$body = $("body")
-    };
+  var App = function() {
+    this.VERSION = "1.6.1",
+    this.AUTHOR = "Bhagabat",
+    this.SUPPORT = "bhagabatabehera30@gmail.com", 
+    this.pageScrollElement = "html, body",
+    this.$body = $("body")
+  };
 
      //on doc load
-    App.prototype.onDocReady = function(e) {
+     App.prototype.onDocReady = function(e) {
       FastClick.attach(document.body);
       resizefunc.push("initscrolls");
       resizefunc.push("changeptype");
@@ -169,30 +162,30 @@ function($) {
       // right side-bar toggle
       $('.right-bar-toggle').on('click', function(e){
 
-          $('#wrapper').toggleClass('right-bar-enabled');
+        $('#wrapper').toggleClass('right-bar-enabled');
       });
 
 
     },
     //initilizing
     App.prototype.init = function() {
-        var $this = this;
+      var $this = this;
         //document load initialization
         $(document).ready($this.onDocReady);
         //init side bar - left
         $.Sidemenu.init();
         //init fullscreen
         $.FullScreen.init();
-    },
+      },
 
-    $.App = new App, $.App.Constructor = App
+      $.App = new App, $.App.Constructor = App
 
-}(window.jQuery),
+    }(window.jQuery),
 
 //initializing main application module
 function($) {
-    "use strict";
-    $.App.init();
+  "use strict";
+  $.App.init();
 }(window.jQuery);
 
 
@@ -214,29 +207,29 @@ function executeFunctionByName(functionName, context /*, args */) {
 }
 var w,h,dw,dh;
 var changeptype = function(){
-    w = $(window).width();
-    h = $(window).height();
-    dw = $(document).width();
-    dh = $(document).height();
+  w = $(window).width();
+  h = $(window).height();
+  dw = $(document).width();
+  dh = $(document).height();
 
-    if(jQuery.browser.mobile === true){
-        $("body").addClass("mobile").removeClass("fixed-left");
+  if(jQuery.browser.mobile === true){
+    $("body").addClass("mobile").removeClass("fixed-left");
+  }
+
+  if(!$("#wrapper").hasClass("forced")){
+    if(w > 1024){
+      $("body").removeClass("smallscreen").addClass("widescreen");
+      $("#wrapper").removeClass("enlarged");
+    }else{
+      $("body").removeClass("widescreen").addClass("smallscreen");
+      $("#wrapper").addClass("enlarged");
+      $(".left ul").removeAttr("style");
     }
-
-    if(!$("#wrapper").hasClass("forced")){
-      if(w > 1024){
-        $("body").removeClass("smallscreen").addClass("widescreen");
-          $("#wrapper").removeClass("enlarged");
-      }else{
-        $("body").removeClass("widescreen").addClass("smallscreen");
-        $("#wrapper").addClass("enlarged");
-        $(".left ul").removeAttr("style");
-      }
-      if($("#wrapper").hasClass("enlarged") && $("body").hasClass("fixed-left")){
-        $("body").removeClass("fixed-left").addClass("fixed-left-void");
-      }else if(!$("#wrapper").hasClass("enlarged") && $("body").hasClass("fixed-left-void")){
-        $("body").removeClass("fixed-left-void").addClass("fixed-left");
-      }
+    if($("#wrapper").hasClass("enlarged") && $("body").hasClass("fixed-left")){
+      $("body").removeClass("fixed-left").addClass("fixed-left-void");
+    }else if(!$("#wrapper").hasClass("enlarged") && $("body").hasClass("fixed-left-void")){
+      $("body").removeClass("fixed-left-void").addClass("fixed-left");
+    }
 
   }
   toggle_slimscroll(".slimscrollleft");
@@ -262,13 +255,13 @@ var debounce = function(func, wait, immediate) {
 function resizeitems(){
   if($.isArray(resizefunc)){
     for (i = 0; i < resizefunc.length; i++) {
-        window[resizefunc[i]]();
+      window[resizefunc[i]]();
     }
   }
 }
 
 function initscrolls(){
-    if(jQuery.browser.mobile !== true){
+  if(jQuery.browser.mobile !== true){
       //SLIM SCROLL
       $('.slimscroller').slimscroll({
         height: 'auto',
@@ -276,15 +269,15 @@ function initscrolls(){
       });
 
       $('.slimscrollleft').slimScroll({
-          height: 'auto',
-          position: 'right',
-          size: "5px",
-          color: '#dcdcdc',
-          wheelStep: 5
+        height: 'auto',
+        position: 'right',
+        size: "5px",
+        color: '#dcdcdc',
+        wheelStep: 5
       });
+    }
   }
-}
-function toggle_slimscroll(item){
+  function toggle_slimscroll(item){
     if($("#wrapper").hasClass("enlarged")){
       $(item).css("overflow","inherit").parent().css("overflow","inherit");
       $(item). siblings(".slimScrollBar").css("visibility","hidden");
@@ -292,18 +285,18 @@ function toggle_slimscroll(item){
       $(item).css("overflow","hidden").parent().css("overflow","hidden");
       $(item). siblings(".slimScrollBar").css("visibility","visible");
     }
-}
+  }
 
 
 // === following js will activate the menu in left side bar based on url ====
 $(document).ready(function() {
-    $("#sidebar-menu a").each(function() {
-      var pageUrl = window.location.href.split(/[?#]/)[0];
-      if (this.href == pageUrl) { 
-            $(this).addClass("active");
+  $("#sidebar-menu a").each(function() {
+    var pageUrl = window.location.href.split(/[?#]/)[0];
+    if (this.href == pageUrl) { 
+      $(this).addClass("active");
             $(this).parent().addClass("active"); // add active to li of the current link
             $(this).parent().parent().prev().addClass("active"); // add active class to an anchor
             $(this).parent().parent().prev().click(); // click the item to make it drop
-        }
-    });
+          }
+        });  
 });
