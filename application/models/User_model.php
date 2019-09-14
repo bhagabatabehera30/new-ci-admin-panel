@@ -332,6 +332,13 @@ function userListingCount($searchText = '')
         return $this->db->affected_rows();
     }
 
+    function deleterecord($tablename='', $fieldname='', $indexid=0)
+    {
+        $this->db->where($fieldname, $indexid);
+        $this->db->delete($tablename);
+    }  
+
+
 
     /**
      * This function is used to match users password for change password
@@ -378,7 +385,7 @@ function userListingCount($searchText = '')
      */
     function loginHistoryCount($userId, $searchText, $fromDate, $toDate)
     {
-        $this->db->select('BaseTbl.userId, BaseTbl.sessionData, BaseTbl.machineIp, BaseTbl.userAgent, BaseTbl.agentString, BaseTbl.platform, BaseTbl.createdDtm');
+        $this->db->select('BaseTbl.id,BaseTbl.userId, BaseTbl.sessionData, BaseTbl.machineIp, BaseTbl.userAgent, BaseTbl.agentString, BaseTbl.platform, BaseTbl.createdDtm');
         if(!empty($searchText)) {
             $likeCriteria = "(BaseTbl.sessionData LIKE '%".$searchText."%')";
             $this->db->where($likeCriteria);
@@ -409,7 +416,7 @@ function userListingCount($searchText = '')
      */
     function loginHistory($userId, $searchText='', $fromDate='', $toDate='')
     {
-        $this->db->select('BaseTbl.userId, BaseTbl.sessionData, BaseTbl.machineIp, BaseTbl.userAgent, BaseTbl.agentString, BaseTbl.platform, BaseTbl.createdDtm');
+        $this->db->select('BaseTbl.id,BaseTbl.userId, BaseTbl.sessionData, BaseTbl.machineIp, BaseTbl.userAgent, BaseTbl.agentString, BaseTbl.platform, BaseTbl.createdDtm');
         $this->db->from('user_last_login as BaseTbl');
         if(!empty($searchText)) {
             $likeCriteria = "(BaseTbl.sessionData  LIKE '%".$searchText."%')";

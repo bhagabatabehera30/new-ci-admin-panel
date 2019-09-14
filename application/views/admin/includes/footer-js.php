@@ -22,62 +22,70 @@
   <script src="<?=ASSETS?>plugins/counterup/jquery.counterup.min.js"></script>
 
   <!--Morris Chart-->
-  <script src="<?=ASSETS?>plugins/morris/morris.min.js"></script>
-  <script src="<?=ASSETS?>plugins/raphael/raphael-min.js"></script>
-  <?php if(js_for_dashboard == 'Y'){ ?>
-    <!-- Dashboard init -->
-    <script src="<?=ASSETS_ADMIN?>assets/pages/jquery.dashboard.js"></script>
+  <!-- <script src="<?=ASSETS?>plugins/morris/morris.min.js"></script>
+    <script src="<?=ASSETS?>plugins/raphael/raphael-min.js"></script> -->  
+    <?php if(js_for_dashboard == 'Y'){ ?>
+      <!-- Dashboard init -->
+      <script src="<?=ASSETS_ADMIN?>assets/pages/jquery.dashboard.js"></script>
+    <?php } ?>
+    <?php if(css_for_add_edit_pages=='Y'){ ?>
+     <script src="<?=ASSETS?>plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.min.js"></script>
+     <script src="<?=ASSETS?>plugins/multiselect/js/jquery.multi-select.js"></script>
+     <script src="<?=ASSETS?>plugins/jquery-quicksearch/jquery.quicksearch.js"></script>
+     <script src="<?=ASSETS?>plugins/select2/js/select2.min.js"></script> 
+     <script src="<?=ASSETS?>plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
+     <script src="<?=ASSETS?>plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js"></script>
+     <script src="<?=ASSETS?>plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js"></script>
+     <script src="<?=ASSETS?>plugins/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+     <script src="<?=ASSETS?>plugins/autocomplete/jquery.mockjax.js"></script>
+     <script src="<?=ASSETS?>plugins/autocomplete/jquery.autocomplete.min.js"></script>  
+     <script src="<?=ASSETS?>plugins/autocomplete/countries.js"></script> 
+     <script src="<?=ASSETS_ADMIN?>assets/pages/jquery.autocomplete.init.js"></script> 
+     <script src="<?=ASSETS_ADMIN?>assets/pages/jquery.form-advanced.init.js"></script>   
+
+     <!--<script src="<?=ASSETS?>plugins/ckeditor/ckeditor.js"></script>-->  
+
+   <?php } ?>  
+   <?php if(js_for_list_pages=='Y'){ ?>
+    <script src="<?=ASSETS?>plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?=ASSETS?>plugins/datatables/dataTables.bootstrap.js"></script>
+
+    <script src="<?=ASSETS?>plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="<?=ASSETS?>plugins/datatables/buttons.bootstrap.min.js"></script>
+    <script src="<?=ASSETS?>plugins/datatables/jszip.min.js"></script>
+    <script src="<?=ASSETS?>plugins/datatables/pdfmake.min.js"></script>
+    <script src="<?=ASSETS?>plugins/datatables/vfs_fonts.js"></script>
+    <script src="<?=ASSETS?>plugins/datatables/buttons.html5.min.js"></script>
+    <script src="<?=ASSETS?>plugins/datatables/buttons.print.min.js"></script>
+    <script src="<?=ASSETS?>plugins/datatables/dataTables.fixedHeader.min.js"></script>
+    <script src="<?=ASSETS?>plugins/datatables/dataTables.keyTable.min.js"></script>
+    <script src="<?=ASSETS?>plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="<?=ASSETS?>plugins/datatables/responsive.bootstrap.min.js"></script>
+    <script src="<?=ASSETS?>plugins/datatables/dataTables.scroller.min.js"></script>
+    <script src="<?=ASSETS?>plugins/datatables/dataTables.colVis.js"></script>
+    <script src="<?=ASSETS?>plugins/datatables/dataTables.fixedColumns.min.js"></script>
+
+    <!-- init -->
+    <script src="<?=ASSETS_ADMIN?>assets/pages/jquery.datatables.init.js"></script>
+    <!--<script src="<?=ASSETS_ADMIN?>assets/js/icheck.min.js"></script>-->
   <?php } ?>
-  <?php if(css_for_add_edit_pages=='Y'){ ?>
-   <script src="<?=ASSETS?>plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.min.js"></script>
-   <script src="<?=ASSETS?>plugins/multiselect/js/jquery.multi-select.js"></script>
-   <script src="<?=ASSETS?>plugins/jquery-quicksearch/jquery.quicksearch.js"></script>
-   <script src="<?=ASSETS?>plugins/select2/js/select2.min.js"></script> 
-   <script src="<?=ASSETS?>plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
-   <script src="<?=ASSETS?>plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js"></script>
-   <script src="<?=ASSETS?>plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js"></script>
-   <script src="<?=ASSETS?>plugins/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
-   <script src="<?=ASSETS?>plugins/autocomplete/jquery.mockjax.js"></script>
-   <script src="<?=ASSETS?>plugins/autocomplete/jquery.autocomplete.min.js"></script>  
-   <script src="<?=ASSETS?>plugins/autocomplete/countries.js"></script> 
-   <script src="<?=ASSETS_ADMIN?>assets/pages/jquery.autocomplete.init.js"></script> 
-   <script src="<?=ASSETS_ADMIN?>assets/pages/jquery.form-advanced.init.js"></script>   
-   
-   <!--<script src="<?=ASSETS?>plugins/ckeditor/ckeditor.js"></script>-->  
 
- <?php } ?>  
- <?php if(js_for_list_pages=='Y'){ ?>
-  <script src="<?=ASSETS?>plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="<?=ASSETS?>plugins/datatables/dataTables.bootstrap.js"></script>
+  <script src="<?=ASSETS?>plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+      <!-- <script src="<?=ASSETS?>plugins/moment/moment.js"></script>
+      <script src="<?=ASSETS?>plugins/timepicker/bootstrap-timepicker.js"></script>
+      <script src="<?=ASSETS?>plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+      <script src="<?=ASSETS?>plugins/clockpicker/js/bootstrap-clockpicker.min.js"></script>
+      <script src="<?=ASSETS?>plugins/bootstrap-daterangepicker/daterangepicker.js"></script> -->  
 
-  <script src="<?=ASSETS?>plugins/datatables/dataTables.buttons.min.js"></script>
-  <script src="<?=ASSETS?>plugins/datatables/buttons.bootstrap.min.js"></script>
-  <script src="<?=ASSETS?>plugins/datatables/jszip.min.js"></script>
-  <script src="<?=ASSETS?>plugins/datatables/pdfmake.min.js"></script>
-  <script src="<?=ASSETS?>plugins/datatables/vfs_fonts.js"></script>
-  <script src="<?=ASSETS?>plugins/datatables/buttons.html5.min.js"></script>
-  <script src="<?=ASSETS?>plugins/datatables/buttons.print.min.js"></script>
-  <script src="<?=ASSETS?>plugins/datatables/dataTables.fixedHeader.min.js"></script>
-  <script src="<?=ASSETS?>plugins/datatables/dataTables.keyTable.min.js"></script>
-  <script src="<?=ASSETS?>plugins/datatables/dataTables.responsive.min.js"></script>
-  <script src="<?=ASSETS?>plugins/datatables/responsive.bootstrap.min.js"></script>
-  <script src="<?=ASSETS?>plugins/datatables/dataTables.scroller.min.js"></script>
-  <script src="<?=ASSETS?>plugins/datatables/dataTables.colVis.js"></script>
-  <script src="<?=ASSETS?>plugins/datatables/dataTables.fixedColumns.min.js"></script>
-
-  <!-- init -->
-  <script src="<?=ASSETS_ADMIN?>assets/pages/jquery.datatables.init.js"></script>
-  <!--<script src="<?=ASSETS_ADMIN?>assets/js/icheck.min.js"></script>-->
-<?php } ?>
-<script src="<?=ASSETS?>plugins/tooltipster/tooltipster.bundle.min.js"></script>
-<script src="<?=ASSETS_ADMIN?>assets/pages/jquery.tooltipster.js"></script>
-<!-- App js -->
-<script src="<?=ASSETS_ADMIN?>assets/js/jquery.core.js"></script>
-<script src="<?=ASSETS_ADMIN?>assets/js/jquery.app.js"></script>
-<?php if(js_for_list_pages=='Y'){ ?>
-  <script>
-    $(document).ready(function () { 
-      $('#datatable').dataTable();
+      <script src="<?=ASSETS?>plugins/tooltipster/tooltipster.bundle.min.js"></script>
+      <script src="<?=ASSETS_ADMIN?>assets/pages/jquery.tooltipster.js"></script>
+      <!-- App js -->
+      <script src="<?=ASSETS_ADMIN?>assets/js/jquery.core.js"></script>
+      <script src="<?=ASSETS_ADMIN?>assets/js/jquery.app.js"></script>
+      <?php if(js_for_list_pages=='Y'){ ?>
+        <script>
+          $(document).ready(function () { 
+            $('#datatable').dataTable();
                  /*$('#datatable-keytable').DataTable({keys: true});
                 $('#datatable-responsive').DataTable();
                $('#datatable-colvid').DataTable({
@@ -107,7 +115,7 @@
                   
                   
                 });
-    TableManageButtons.init();
+          TableManageButtons.init();
 
 /* $(document).ready(function () { 
  // Handle click on "Select all" control
@@ -172,7 +180,7 @@ function confdel()
 	var fl = 0;
 	for(i = 0; i < (document.form1.elements.length); i++)
 	{
-   
+
 		if((document.form1.elements[i].type=="checkbox") && (document.form1.elements[i].checked==true))
 		{
 			fl = 1;
@@ -213,7 +221,7 @@ function confact()
 	var fl = 0;
 	for(i = 0; i < (document.form1.elements.length); i++)
 	{
-   
+
 		if((document.form1.elements[i].type=="checkbox") && (document.form1.elements[i].checked==true))
 		{
 			fl = 1;
@@ -254,7 +262,7 @@ function confdeact()
 	var fl = 0;
 	for(i = 0; i < (document.form1.elements.length); i++)
 	{
-   
+
 		if((document.form1.elements[i].type=="checkbox") && (document.form1.elements[i].checked==true))
 		{
 			fl = 1;
@@ -363,7 +371,10 @@ $(function(){
 </script>
 -->    
 
-
+<script type="text/javascript">
+ jQuery('#datepicker-autoclose').datepicker({ autoclose: true, todayHighlight: true });
+ jQuery('#dpacto').datepicker({ autoclose: true, todayHighlight: true }); 
+</script>
 
 
 

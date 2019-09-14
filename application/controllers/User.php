@@ -5,9 +5,9 @@ require APPPATH . '/libraries/BaseController.php';
 /**
  * Class : User (UserController)
  * User Class to control all user related operations.
- * @author : Kishor Mali
+ * @author : Bhagabat Behera
  * @version : 1.1
- * @since : 15 November 2016
+ * @since : 2019
  */
 class User extends BaseController
 {
@@ -29,7 +29,7 @@ class User extends BaseController
  } 
 
 // --------load extra css and js  for specific list pages/methods------------------- 
- if(($this->router->method == "userListing")) 
+ if(($this->router->method == "userListing") || ($this->router->method == "loginHistoy"))   
  {
    define('css_for_list_pages','Y');
    define('js_for_list_pages','Y');       
@@ -338,6 +338,8 @@ redirect(ADMIN_PANEL.'userListing');
 
 }
 
+
+
     /**
      * This function is used to delete the user using userId
      * @return boolean $result : TRUE / FALSE
@@ -359,6 +361,32 @@ redirect(ADMIN_PANEL.'userListing');
             else { echo(json_encode(array('status'=>FALSE))); }
         }
     }
+
+
+
+    function Delete($tablename='', $fieldname='', $indexid=0)
+    { 
+        if($this->isAdmin() == TRUE)
+        {
+            echo(json_encode(array('status'=>'access')));
+        }
+        else
+        {
+            // $lastlogid = $this->input->post('lastlogid');
+
+            $result=$this->user_model->deleterecord($tablename, $fieldname, $indexid);
+
+            if ($result) { echo(json_encode(array('status'=>TRUE))); }
+            else { echo(json_encode(array('status'=>FALSE))); }
+            
+        }
+
+    }
+
+
+
+
+    
     
     /**
      * Page not found : error 404
@@ -410,6 +438,35 @@ redirect(ADMIN_PANEL.'userListing');
             $this->loadViews("admin/loginHistory", $this->global, $data, NULL);
         }        
     }
+
+    function delete_all_history($userId){ 
+     if($this->isAdmin() == TRUE)
+     {
+        $this->loadThis();
+    }
+    else
+    { 
+      if(is_post_back()) {
+    $arr_adm_ids=$this->input->post('arr_cat_ids');  //print_r($arr_adm_ids);
+    $Delete=$this->input->post('Delete'); 
+    if(is_array($arr_adm_ids)) { 
+        $str_adm_ids = implode(',', $arr_adm_ids);  
+        if($Delete!='') {
+
+            $this->user_model->deleteAll('user_last_login','id',$str_adm_ids);  
+            $sess_msg="Records Deleted Successfully";;
+
+            $_SESSION['sessionMsg']=$sess_msg; 
+
+        }  
+    }
+}
+redirect(ADMIN_PANEL.'login-history/'.$userId);
+}
+
+
+}
+
 
     /**
      * This function is used to show users profile

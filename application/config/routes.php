@@ -75,6 +75,11 @@ $route['adminpanel/profile/(:any)'] = "user/profile/$1";
 $route['adminpanel/profileUpdate'] = "user/profileUpdate";
 $route['adminpanel/profileUpdate/(:any)'] = "user/profileUpdate/$1";
 
+$route['adminpanel/fileupload'] = "fileupload";
+$route['adminpanel/fileuploading'] = "fileupload/UploadFile"; 
+
+
+
 $route['adminpanel/loadChangePass'] = "user/loadChangePass";
 $route['adminpanel/changePassword'] = "user/changePassword";
 $route['adminpanel/changePassword/(:any)'] = "user/changePassword/$1";
@@ -82,6 +87,12 @@ $route['adminpanel/pageNotFound'] = "user/pageNotFound";
 $route['adminpanel/checkEmailExists'] = "user/checkEmailExists";
 $route['adminpanel/login-history'] = "user/loginHistoy";
 $route['adminpanel/login-history/(:num)'] = "user/loginHistoy/$1";
+$route['adminpanel/delete_all_history/(:num)'] = "user/delete_all_history/$1";
+
+
+
+
+
 $route['adminpanel/login-history/(:num)/(:num)'] = "user/loginHistoy/$1/$2"; 
 
 $route['forgotPassword'] = "login/forgotPassword";
@@ -90,6 +101,9 @@ $route['resetPasswordConfirmUser'] = "login/resetPasswordConfirmUser";
 $route['resetPasswordConfirmUser/(:any)'] = "login/resetPasswordConfirmUser/$1";
 $route['resetPasswordConfirmUser/(:any)/(:any)'] = "login/resetPasswordConfirmUser/$1/$2";
 $route['createPasswordUser'] = "login/createPasswordUser";
+
+// delete data in admin panel---
+$route['adminpanel/Delete/(:any)/(:any)/(:num)'] = "user/Delete/$1/$2/$3";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

@@ -35,19 +35,26 @@
                             <?php } ?>  
                             <div class="card-box table-responsive">
                               <h4 class="m-t-0 header-title"><b><?=$pageTitle;?></b></h4>
+                              <?php
 
-
+                              if(!empty($_SERVER['REQUEST_URI'])){
+                                $ruri_uid=substr($_SERVER['REQUEST_URI'],-1);
+                              }
+                              ?>
                               <div class="row">
-                                <form action="<?php echo base_url() ?>login-history" method="POST" id="searchList">
+                                <form action="<?=BASE_URL.ADMIN_PANEL;?>login-history/<?=$ruri_uid; ?>" method="POST" id="searchList">
+                                  <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" 
+                                  value="<?=$this->security->get_csrf_hash();?>" />
+
                                   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 form-group">
                                     <div class="input-group">
-                                      <input id="fromDate" type="text" name="fromDate" value="<?php echo $fromDate; ?>" class="form-control datepicker" placeholder="From Date" autocomplete="off" />
+                                      <input id="datepicker-autoclose" type="text" name="fromDate" value="<?php echo $fromDate; ?>" class="form-control" placeholder="From Date" autocomplete="off" />
                                       <span class="input-group-addon"><label for="fromDate"><i class="fa fa-calendar"></i></label></span>
-                                    </div>
+                                    </div> 
                                   </div>
                                   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 form-group">
                                     <div class="input-group">
-                                      <input id="toDate" type="text" name="toDate" value="<?php echo $toDate; ?>" class="form-control datepicker" placeholder="To Date" autocomplete="off" />
+                                      <input id="dpacto" type="text" name="toDate" value="<?php echo $toDate; ?>" class="form-control" placeholder="To Date" autocomplete="off" />
                                       <span class="input-group-addon"><label for="toDate"><i class="fa fa-calendar"></i></label></span>
                                     </div>
                                   </div>
@@ -58,13 +65,13 @@
                                     <button type="submit" class="btn btn-md btn-primary btn-block searchList pull-right"><i class="fa fa-search" aria-hidden="true"></i></button> 
                                   </div>
                                   <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6 form-group">
-                                    <button class="btn btn-md btn-default btn-block pull-right resetFilters"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+
                                   </div>
                                 </form>
                               </div>
                               <br>
                               <h3 class="box-title"><?= !empty($userInfo) ? $userInfo->name." : ".$userInfo->email : "All users" ?></h3>
-                              <form name="form1" method="post" action="<?=BASE_URL.ADMIN_PANEL;?>activeDeactiveOrDeleteAllUsers_">
+                              <form name="form1" method="post" action="<?=BASE_URL.ADMIN_PANEL;?>delete_all_history/<?=$ruri_uid; ?>"> 
                                 <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" 
                                 value="<?=$this->security->get_csrf_hash();?>" />
                                 <table id="datatable-buttons" class="table table-striped table-bordered">
@@ -89,96 +96,102 @@
                                     foreach($userRecords as $result)
                                     {
                                       ?>   <tr>
-                                        <td><input name="arr_cat_ids[]" class="check" type="checkbox" id="arr_cat_ids[]" value="<?php //echo $result->userId;?>"></td> 
-
-                                        
-
-                                        <td><?=$result->sessionData;?></td>
-                                        <td><?=$result->machineIp;?></td>
-                                        <td><?=$result->userAgent;?></td>
-                                        <td><?=$result->agentString;?></td>
-                                        <td><?=$result->platform;?></td>
-                                        <td><?=$result->createdDtm;?></td>
-                                        
-                                        
-                                        <td><a class="deleteUser" href="#" data-userid="<?php ?>" title="Delete" style="color:#d73925;"><i class="fa fa-trash-o"></i></a> 
-
-                                        </td>
-                                      </tr>
-                                    <?php } } ?>
-
-                                  </tbody>
-                                </table>
-                                <table width="98%" border="0" cellpadding="0" cellspacing="0" class="mrg10T mrg10B"><tr>
+                                        <td><input name="arr_cat_ids[]" class="check" type="checkbox" id="arr_cat_ids[]" 
+                                          value="<?php echo $result->id;?>"></td>   
 
 
-                                  <td align="right">
-                                    <input name="Delete" type="submit" id="Delete" value="Delete" class="btn btn-danger btn-sm" onClick="return confdel();">        </td>
 
-                                  </tr> 
+                                          <td><?=$result->sessionData;?></td>
+                                          <td><?=$result->machineIp;?></td>
+                                          <td><?=$result->userAgent;?></td>
+                                          <td><?=$result->agentString;?></td>
+                                          <td><?=$result->platform;?></td>
+                                          <td><?=$result->createdDtm;?></td>
 
 
-                                  <tr>
+                                          <td><a class="deleteUser" href="javascript:void(0)" data-lastlogid="<?php echo $result->id;?>" title="Delete" style="color:#d73925;"><i class="fa fa-trash-o"></i></a> 
 
-                                    <td align="left" > <br> <span class="disable_row" style="height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;Disabled Users.  </td>
-                                  </tr>
+                                          </td>
+                                        </tr>
+                                      <?php } } ?>
 
-                                </table>
-                              </form>
+                                    </tbody>
+                                  </table>
+                                  <table width="98%" border="0" cellpadding="0" cellspacing="0" class="mrg10T mrg10B"><tr>
+
+
+                                    <td align="right">
+                                      <input name="Delete" type="submit" id="Delete" value="Delete" class="btn btn-danger btn-sm" onClick="return confdel();">        </td>
+
+                                    </tr> 
+
+
+                                    <tr>
+
+                                      <td align="left" > <br> <span class="disable_row" style="height:20px;">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;Disabled.  </td>
+                                    </tr>
+
+                                  </table>
+                                </form>
+                              </div>
                             </div>
                           </div>
-                        </div>
 
 
 
-                        <!-- end row -->
+                          <!-- end row -->
 
 
 
-                      </div> <!-- container -->
+                        </div> <!-- container -->
 
-                    </div> <!-- content -->
+                      </div> <!-- content -->
 
 
-                    <script>
+                      <script>
 
-                      jQuery(document).ready(function(){
+                        jQuery(document).ready(function(){
 
-                        jQuery(document).on("click", ".deleteUser", function(){
-                          var userId = $(this).data("userid"),
-                          hitURL = baseURL + adminPanel + "deleteUser",
-                          currentRow = $(this);
-                          var csrf_t_n="<?php echo $this->security->get_csrf_token_name(); ?>";
-                          var csrf_t_h="<?php echo $this->security->get_csrf_hash(); ?>";
 
-                          var confirmation = confirm("Are you sure to delete this user ?");
 
-                          if(confirmation)
-                          {
-                            jQuery.ajax({
-                              type : "POST",
-                              dataType : "json",
-                              url : hitURL,
-                              data : { userId : userId, csrf_t_n : csrf_t_h }  
-                            }).done(function(data){
-                              console.log(data);
-                              currentRow.parents('tr').remove();
-                              if(data.status = true) { alert("User successfully deleted"); }
-                              else if(data.status = false) { alert("User deletion failed"); }
-                              else { alert("Access denied..!"); }
-                            });
-                          }
+                          jQuery(document).on("click", ".deleteUser", function(){
+                            var lastlogid = $(this).data("lastlogid"),
+                            hitURL = baseURL + adminPanel + "Delete/user_last_login/id/"+lastlogid,
+                            currentRow = $(this);
+                            var csrf_t_n="<?php echo $this->security->get_csrf_token_name(); ?>";
+                            var csrf_t_h="<?php echo $this->security->get_csrf_hash(); ?>";
+                            // alert(hitURL);
+                            var confirmation = confirm("Are you sure to delete this data ?");
+
+                            if(confirmation)
+                            {
+                              jQuery.ajax({
+                                type : "POST",
+                                dataType : "json",
+                                url : hitURL,
+                                data : {csrf_t_n : csrf_t_h }  
+                              }).done(function(data){
+                                console.log(data);
+                                currentRow.parents('tr').remove();
+                                if(data.status = true) { 
+                                  alert("User successfully deleted");
+                                  window.location.reload(); 
+                                }
+                                else if(data.status = false) { alert("User deletion failed"); }
+                                else { alert("Access denied..!"); }
+                              });
+                            }
+                          });
+
+
+                          jQuery(document).on("click", ".searchList", function(){
+
+                          });
+
                         });
 
 
-                        jQuery(document).on("click", ".searchList", function(){
-
-                        });
-
-                      });
-
-
-                    </script>
+                      </script>
 
 
 
